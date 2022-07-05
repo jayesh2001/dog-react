@@ -1,0 +1,1 @@
+Currently you can just feth dog images based on their breed.
