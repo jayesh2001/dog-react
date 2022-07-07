@@ -18,11 +18,12 @@ function Dropdown(){
     },[]);
     
     
-    const fun1=(a,b)=>{
-        console.log("https://api.thedogapi.com/v1/images/search?order="+b+"&limit=10&breed_id="+a);
+    const fun1=(b,o,l)=>{
+        console.log(breeds[breed]);
+        console.log("https://api.thedogapi.com/v1/images/search?order="+o+"&limit="+l+"&breed_id="+b);
         axios({
             
-            url: "https://api.thedogapi.com/v1/images/search?order="+b+"&limit=10&breed_id="+a,
+            url: "https://api.thedogapi.com/v1/images/search?order="+o+"&limit="+l+"&breed_id="+b,
             method: 'get',
             headers: {
                 'api_key':'03202bf7-6b44-44bb-b7eb-ddc9ac6f0f21',
@@ -34,25 +35,30 @@ function Dropdown(){
 
     };
 
-    const onddlchange=(a)=>{
-            setb(a);
-            fun1(a,order);
+    const change=(b)=>{
+            setb(b);
+            fun1(b,order,limit);
     };
 
-    const onddlchange1=(a)=>{
-        setorder(a);
-        fun1(breed,a);
-};
+    const change1=(o)=>{
+        setorder(o);
+        fun1(breed,o,limit);
+    };
+
+    const change2=(l)=>{
+        setlimit(l);
+        fun1(breed,order,l);
+    };
 
 
     return (
     <div>
         <div><br/><br/>
-            select dog breed {' '}
-        <select onChange={b=>onddlchange(b.target.value)}>
+            Select dog breed {' '}
+        <select onChange={b=>change(b.target.value)}>
             
-        <option  value="0">
-        --Choose option--
+        <option  value="">
+        Random
         </option>
             {breeds.map((breed) =>(
                 <option key={breed.id} value={breed.id}>
@@ -65,8 +71,8 @@ function Dropdown(){
         <br/><br/>
         </div>
         <div>
-                select order {' '}
-        <select onChange={c=>onddlchange1(c.target.value)}> 
+                Select order {' '}
+        <select onChange={c=>change1(c.target.value)}> 
                 <option key='RANDOM' value='RANDOM' >RANDOM</option>
                 <option key='ASC' value='ASC' >ASC</option>
                 <option key='DESC' value='DESC' >DESC</option>
@@ -75,9 +81,40 @@ function Dropdown(){
         </div>
         <br/>
         <div>
+                Select Limit {' '}
+        <select onChange={c=>change2(c.target.value)}> 
+                <option key='1' value='1' >1</option>
+                <option key='2' value='2' >2</option>
+                <option key='3' value='3' >3</option>
+                <option key='4' value='4' >4</option>
+                <option key='5' value='5' >5</option>
+                <option key='10' value='10' >10</option>
+                <option key='15' value='15' >15</option>
+                <option key='20' value='20' >20</option>
+                <option key='50' value='50' >50</option>
+
+        </select>   
+        </div>
+        
+        <div>
+            {breed >0 &&
+                <div>
+                <h1>{breeds[breed-1].name}</h1>
+                <h3>{breeds[breed-1].temperament}</h3>
+                <h3>{breeds[breed-1].origin}</h3>
+                <h3>{breeds[breed-1].weight.metric}{' Kgs'}</h3>
+                <h3>{breeds[breed-1].height.metric}{' cm at the withers'}</h3>
+                <h3>{breeds[breed-1].life_span}{' years average life span'}</h3>
+
+                </div>
+            } 
+                
+        </div><br/>
+
+        <div >
             {
                 images.map((img)=>(
-                    <img style={{width:300, height:300}} src={img.url} />
+                   <img  style={{width:300, height:300,padding: 5}} src={img.url} />
                 ))
             }
         </div>
